@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+    {% block title %} Register {% endblock %}
+    
+<body>
+    <div class="container">
+   
+    {% block other %}
+<h1> Register </h1>
+    <form method="post">
+        {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Register">
+    </form> <span> already have ac ?
+        <a href="{% url 'login' %}"> Login</a></span>
+    
+    {% endblock other %}
+        </div> 
+</body>
+</html>

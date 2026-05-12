@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Create Blog {% endblock %}
+
+{% block other %}
+<h1>Create your blogs</h1>
+    <form method="post">
+        {% csrf_token %} 
+        {{form.as_p}}
+        <input type="submit" value="submit">
+    </form>
+<a href="{% url 'index' %}"> bake to home </a>
+
+{% endblock other %}

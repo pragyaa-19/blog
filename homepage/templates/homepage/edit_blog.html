@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit | Blogs{% endblock %}
+{% block other %}
+
+<h1> Edit Your Blog : </h1>
+<form method="post">
+    {% csrf_token %} 
+    {{form.as_p}}
+    <input type="submit" value="submit">
+</form>
+{% endblock other %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Blogs | {{ blog.title }}{% endblock %}  
+{% block other %}
+<h1>
+    {{ blog.title }}
+</h1>
+<small> By: {{ blog.author.username }} | {{ blog.created_at }}</small> <br/>
+<hr>
+
+<h3>
+    
+{{ blog.content }}</h3>
+<small> last updated at {{ blog.updated_at }}</small>
+<br>
+<small> <a href="{% url 'index' %}"> Back </a></small>
+{% endblock other %}

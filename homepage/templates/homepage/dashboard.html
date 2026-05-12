@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block other %}
+<h1>My Blogs</h1>
+<hr>
+<ul>
+{% for blog in blogs %}
+    <li><h3><a href="{% url 'blog_detail' blog.slug %}"> {{ blog.title }} </a></h3></li>
+    <p>{{ blog.content|truncatewords:10 }}</p>
+    <small>{{ blog.created_at }} <a href="{% url 'blog_edit' blog.slug%}">(edit)</a>
+            <a href="{% url 'blog_delete' blog.slug %}">(delete)</a>
+            </small></small>
+    <hr>
+{% empty %}
+    <p>You haven’t written any blogs yet.</p>
+{% endfor %}
+<a href="{% url 'index' %}"> back to home </a>
+</ul>
+{% endblock other %}

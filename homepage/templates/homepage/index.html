@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> BLOG </title>
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <a href="{% url 'create_blog' %}"> Create Blog </a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <a href="{% url 'dashboard' %}"> dashboard </a>
+
+
+        {% else %}
+        <p>Please log in. <small><a href="{% url 'login' %}"> Login </a></small></p>
+
+        {% endif %}
+    </div>
+
+
+    <div class="blog-header">
+        <h1>  Blogs </h1>
+        <ul>
+            {% for blog in blogs %}
+
+            <li><a href="{% url 'blog_detail' blog.slug %}"> {{ blog.title }} </a>
+            <small>
+                Written by - <b> {{ blog.author.username }}</b>
+                on {{ blog.created_at|date:"F j, Y" }} <br>
+                
+            
+            {{ blog.content|truncatewords:20 }} <a href="{% url 'blog_edit' blog.slug %}">(edit)</a>
+            <a href="{% url 'blog_delete' blog.slug %}">(delete)</a>
+            </small>
+            </li>
+            {% if blog.image %}
+            <img src="{{ blog.image.url }}" width="200">
+            {% endif %}
+            {% empty %}
+            <p>No blogs available.</p>
+
+            {% endfor %}
+            <br/>
+        </ul>
+    </div>
+    </div>
+    <div class="pagination">
+
+    {% if blogs.has_previous %}
+        <a href="?page={{ blogs.previous_page_number }}">Prev</a>
+    {% endif %}
+
+    <span>
+        Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}
+    </span>
+
+    {% if blogs.has_next %}
+        <a href="?page={{ blogs.next_page_number }}">Next</a>
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>
