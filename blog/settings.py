@@ -41,11 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'homepage',
+    'photo_uploader',
+    'django_cotton',
     
 ]
 
-#Middleware is a hook into Django’s request–response cycle.
-#A place where Django allows you to plug your own logic into its flow.
+# Middleware is a hook into Django’s request–response cycle.
+# A place where Django allows you to plug your own logic into its flow.
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -159,3 +162,7 @@ LOGIN_REDIRECT_URL = 'index'
 
 # session expires as soon as you clodse the browser
 #SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+
+

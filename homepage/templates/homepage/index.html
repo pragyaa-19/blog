@@ -1,83 +1,163 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> BLOG </title>
-    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
-</head>
+{% block title %}Blogs | Explore Articles{% endblock %}
 
-<body>
-    <div class="container">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
+{% block css %}
+<link rel="stylesheet" href="{% static 'accounts/css/home.css' %}">
+<style>
+    /* Professional Layout Enhancements */
+    .blog-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border: 1px solid rgba(0,0,0,.08);
+        height: 100%;
+    }
+    .blog-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.08) !important;
+    }
+    .blog-title-link {
+        color: #1a1a1a;
+        transition: color 0.15s ease;
+    }
+    .blog-title-link:hover {
+        color: #0d6efd;
+    }
+    .avatar-sm {
+        width: 32px;
+        height: 32px;
+        background-color: #e9ecef;
+        color: #495057;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 0.85rem;
+    }
+    .pagination-wrapper {
+        background-color: #ffffff;
+        border-radius: 50px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: 0.5rem 1.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block other %}
+<div class="container py-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="fw-bold tracking-tight text-dark mb-1">Explore Blogs</h1>
+            <p class="text-muted mb-0">Discover insights, stories, and expertise from our community.</p>
+        </div>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'create_blog' %}" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold shadow-sm">
+                <i class="bi bi-plus-lg me-2"></i>Create Blog
+            </a>
+        {% endif %}
+    </div>
+
+    <div class="row g-4">
+        {% for blog in blogs %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card blog-card h-100 shadow-sm bg-white rounded-4 overflow-hidden">
+                
+                {% if blog.image %}
+                <div class="position-relative overflow-hidden" style="max-height: 200px; aspect-ratio: 16/9;">
+                    <img src="{{ blog.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ blog.title }}">
+                </div>
+                {% endif %}
+
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-light text-primary border border-primary-subtle px-2.5 py-1.5 rounded-pill fw-semibold text-xs">
+                            Article
+                        </span>
+                        {% if request.user == blog.author %}
+                            <div class="action-dropdown">
+                                {% include 'action.html' %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <h4 class="card-title fw-bold mb-2 architecture-heading">
+                        <a href="{% url 'blog_detail' blog.slug %}" class="blog-title-link text-decoration-none text-dark d-block text-truncate-2">
+                            {{ blog.title }}
+                        </a>
+                    </h4>
+
+                    <p class="card-text text-muted flex-grow-1 mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+                        {{ blog.content|truncatewords:22 }}
+                    </p>
+
+                    <hr class="text-black-50 my-3 opacity-10">
+
+                    <div class="d-flex align-items-center justify-content-between mt-auto">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-sm me-2 text-uppercase">
+                                {{ blog.author.username|slice:":1" }}
+                            </div>
+                            <div style="line-height: 1.2;">
+                                <a href="{% url 'author_profile' blog.author.username %}" class="text-decoration-none text-dark fw-semibold small d-block">
+                                    {{ blog.author.username }}
+                                </a>
+                                <small class="text-muted text-xs" style="font-size: 0.75rem;">
+                                    {{ blog.created_at|date:"M j, Y" }}
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            {% include 'reaction.html' %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="p-5 bg-light rounded-4 border border-dashed">
+                <i class="bi bi-journal-x text-muted display-4 mb-3 d-block"></i>
+                <h4 class="fw-bold text-dark">No articles found</h4>
+                <p class="text-muted max-w-md mx-auto mb-4">Be the first one to share your thoughts and write an insightful piece today.</p>
+                <a href="#" class="btn btn-outline-primary rounded-pill px-4">Write a Blog</a>
+            </div>
         </div>
         {% endfor %}
-        {% endif %}
-
-        {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}!</p>
-        <a href="{% url 'create_blog' %}"> Create Blog </a>
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
-        <a href="{% url 'dashboard' %}"> dashboard </a>
-
-
-        {% else %}
-        <p>Please log in. <small><a href="{% url 'login' %}"> Login </a></small></p>
-
-        {% endif %}
     </div>
 
-
-    <div class="blog-header">
-        <h1>  Blogs </h1>
-        <ul>
-            {% for blog in blogs %}
-
-            <li><a href="{% url 'blog_detail' blog.slug %}"> {{ blog.title }} </a>
-            <small>
-                Written by - <b> {{ blog.author.username }}</b>
-                on {{ blog.created_at|date:"F j, Y" }} <br>
-                
-            
-            {{ blog.content|truncatewords:20 }} <a href="{% url 'blog_edit' blog.slug %}">(edit)</a>
-            <a href="{% url 'blog_delete' blog.slug %}">(delete)</a>
-            </small>
-            </li>
-            {% if blog.image %}
-            <img src="{{ blog.image.url }}" width="200">
+    {% if blogs.paginator.num_pages > 1 %}
+    <div class="d-flex justify-content-center mt-5">
+        <div class="pagination-wrapper d-flex align-items-center gap-3 border">
+            {% if blogs.has_previous %}
+                <a class="btn btn-sm btn-link text-decoration-none fw-semibold px-2" href="?page={{ blogs.previous_page_number }}">
+                    <i class="bi bi-arrow-left me-1"></i> Prev
+                </a>
+            {% else %}
+                <span class="text-muted small px-2 opacity-50"><i class="bi bi-arrow-left me-1"></i> Prev</span>
             {% endif %}
-            {% empty %}
-            <p>No blogs available.</p>
 
-            {% endfor %}
-            <br/>
-        </ul>
+            <span class="text-muted fw-medium small border-start border-end px-3">
+                Page <span class="text-dark fw-bold">{{ blogs.number }}</span> of {{ blogs.paginator.num_pages }}
+            </span>
+
+            {% if blogs.has_next %}
+                <a class="btn btn-sm btn-link text-decoration-none fw-semibold px-2" href="?page={{ blogs.next_page_number }}">
+                    Next <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            {% else %}
+                <span class="text-muted small px-2 opacity-50">Next <i class="bi bi-arrow-right ms-1"></i></span>
+            {% endif %}
+        </div>
     </div>
-    </div>
-    <div class="pagination">
-
-    {% if blogs.has_previous %}
-        <a href="?page={{ blogs.previous_page_number }}">Prev</a>
-    {% endif %}
-
-    <span>
-        Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}
-    </span>
-
-    {% if blogs.has_next %}
-        <a href="?page={{ blogs.next_page_number }}">Next</a>
     {% endif %}
 
 </div>
+{% endblock other %}
 
-</body>
-
-</html>
+{% block js %}
+<script src="{% static 'accounts/js/reaction.js' %}"></script>
+{% endblock %}

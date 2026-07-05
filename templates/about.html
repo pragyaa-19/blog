@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block other %}
+<div id="carouselExample" class="carousel slide">
+
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200"
+                 class="d-block w-100"
+                 style="height:722px; object-fit:cover;"
+                 alt="Nature">
+
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Write & Share</h5>
+<p>Create blogs and express your ideas.</p>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200"
+                 class="d-block w-100"
+                 style="height:722px; object-fit:cover;"
+                 alt="City">
+
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Capture Moments</h5>
+<p>Upload photographs and build your portfolio.</p>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200"
+                 class="d-block w-100"
+                 style="height:722px; object-fit:cover;"
+                 alt="Forest">
+
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Join the Community</h5>
+<p>Discover creators, stories, and inspiration.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExample"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
+
+{% endblock %}

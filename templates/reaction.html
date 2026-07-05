@@ -1,0 +1,33 @@
+{% load static %}
+<div class="gap-2 d-flex ">
+    <form action="{% url 'save' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" name="blog_id" value="{{ blog.id }}" class="btn btn-lg s">
+             <i class="bi bi-bookmark-plus-fill"></i>
+             {% if blog.id in saved_blogs %}
+             bi bi-bookmark-check-fill
+             {% endif %}
+                
+        </button>
+    </form>
+
+    <form method="post">
+        <button type="button" name="like" value="{{ blog.id }}" class="btn btn-lg">
+            <i class="bi like-icon l
+                {% if blog.id in liked_blogs %}
+                    bi-heart-fill text-danger
+                {% else %}
+                    bi-heart
+                {% endif %}
+                "data-blog-id="{{ blog.id }}">
+            </i>
+        </button>
+    </form>
+    <form method="post">
+        <button type="button" name="dislike" value="{{ blog.id }}" class="btn btn-lg d">
+            <i class="bi bi-hand-thumbs-down" data-blog-id="{{ blog.id }}">
+            </i>
+        </button>
+
+    </form>
+</div>

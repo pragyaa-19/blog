@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Media | Gallery{% endblock %}
+
+{% block css %}
+<style>
+    .upload-container {
+        max-width: 1100px; /* Expanded out of narrow card layouts */
+        margin-top: 3.5rem;
+        margin-bottom: 5rem;
+    }
+    
+    /* Interactive Drag & Drop Area Box */
+    .drop-zone {
+        border: 2px dashed #cbd5e1;
+        border-radius: 16px;
+        background-color: #f8fafc;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+    
+    .drop-zone:hover {
+        border-color: #4f46e5;
+        background-color: rgba(79, 70, 229, 0.02);
+    }
+
+    .drop-zone input[type="file"] {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Live Multi-Image Grid Preview Container */
+    .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .preview-wrapper {
+        position: relative;
+        aspect-ratio: 1/1;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .preview-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .form-control {
+        background-color: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        color: #111827;
+        transition: border-color 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+
+    .btn-primary-upload {
+        background-color: #4f46e5;
+        border: none;
+        color: #ffffff;
+        padding: 0.75rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary-upload:hover {
+        background-color: #4338ca;
+    }
+</style>
+{% endblock css %}
+
+{% block other %}
+<div class="container upload-container">
+    <div class="bg-white rounded-4 border p-4 p-md-5 shadow-sm">
+        
+        <!-- Header Section -->
+        <div class="mb-5">
+            <h2 class="fw-bold tracking-tight mb-1">Upload Gallery Media</h2>
+            <p class="text-muted mb-0">Share high-quality images or portfolio photography captures with the community.</p>
+        </div>
+
+        <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            
+            <div class="row g-4">
+                <!-- Left Column: Media Attachment and Previews -->
+                <div class="col-12 col-lg-7">
+                    <label class="form-label fw-semibold text-secondary-emphasis small mb-2">Select Media Assets</label>
+                    <div class="drop-zone position-relative text-center p-5">
+                        <input type="file" name="media" id="media_input" class="position-absolute" multiple required accept="image/*">
+                        <div class="py-2">
+                            <i class="bi bi-images text-muted display-5 mb-3 d-block"></i>
+                            <span class="fw-semibold text-dark d-block mb-1" id="upload-text">
+                                Drag & drop your items here, or <span class="text-primary">browse</span>
+                            </span>
+                            <span class="text-muted small">Select one or multiple image assets</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Image Thumbnails Display Container -->
+                    <div id="image-preview-container" class="preview-grid"></div>
+                </div>
+
+                <!-- Right Column: Meta Fields Workspace -->
+                <div class="col-12 col-lg-5 d-flex flex-column justify-content-between">
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary-emphasis small mb-2" for="id_caption">Caption & Context</label>
+                        <textarea class="form-control" 
+                                  id="id_caption" 
+                                  rows="6" 
+                                  name="caption" 
+                                  placeholder="Write an engaging storyline or context details for this media drop..."></textarea>
+                    </div>
+
+                    <!-- Action Control Panel Footer -->
+                    <div class="d-flex align-items-center justify-content-end gap-3 pt-4 border-top mt-auto">
+                        <a href="{% url 'photo' %}" class="btn btn-light px-4 py-2 rounded-3 text-muted fw-medium small text-decoration-none">Cancel</a>
+                        <button type="submit" class="btn btn-primary-upload">
+                            <i class="bi bi-cloud-arrow-up-fill me-2"></i>Publish Post
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock other %}
+
+{% block js %}
+<script>
+    const fileInput = document.getElementById('media_input');
+    const uploadText = document.getElementById('upload-text');
+    const previewContainer = document.getElementById('image-preview-container');
+
+    fileInput.addEventListener('change', (e) => {
+        const files = e.target.files;
+        previewContainer.innerHTML = ''; // Clear out past items instantly
+
+        if (files.length > 0) {
+            // Update drag and drop field label text string
+            uploadText.innerHTML = `<span class="text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> ${files.length} files attached successfully</span>`;
+            
+            // Loop and process object files for live layout stream injection
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = (event) => {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'preview-wrapper';
+                        
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.className = 'preview-image';
+                        
+                        wrapper.appendChild(img);
+                        previewContainer.appendChild(wrapper);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+        } else {
+            uploadText.innerHTML = 'Drag & drop your items here, or <span class="text-primary">browse</span>';
+        }
+    });
+</script>
+{% endblock js %}

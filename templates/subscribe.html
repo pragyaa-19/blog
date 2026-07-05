@@ -1,0 +1,33 @@
+<!-- Added margin-top/bottom to space it out from other content -->
+<div class="container my-5">
+    
+    <!-- Enclosed in a soft light box to make it pop as a distinct section -->
+    <div class="bg-light rounded-4 p-4 p-md-5 text-center shadow-sm border-0">
+        
+        <!-- Refined typography for a cleaner header -->
+        <h4 class="fw-bold text-dark mb-2">Subscribe to our Newsletter</h4>
+        <p class="text-muted mb-4">Receive the latest blogs and updates directly in your inbox.</p>
+        
+        <!-- Centered the form and constrained the width so it doesn't stretch too far on desktop -->
+        <form method="post" class="mx-auto" style="max-width: 500px;">
+            {% csrf_token %}
+            
+            <!-- input-group attaches the button seamlessly to the input field -->
+            <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                <input
+                    class="form-control border-0 px-4 py-3 shadow-none"
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    aria-label="Email address"
+                    required>
+                
+                <!-- Dark button for high contrast and modern feel -->
+                <button class="btn btn-dark px-4 fw-medium" type="submit">
+                    Subscribe
+                </button>
+            </div>
+        </form>
+        
+    </div>
+</div>

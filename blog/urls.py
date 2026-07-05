@@ -31,7 +31,11 @@ urlpatterns = [
     path('register/',views.register_user, name='register'),
     path('login/',views.login_user, name='login'),
     path('log-out/',views.logout_user, name='logout'),
+    path('edit_profile/',views.edit_profile, name='edit'),
+    path('user_profile/',views.user_Profile, name='profile'),
     path('blog/',include("homepage.urls")),
+    path('photo/',include("photo_uploader.urls")),
+    
 
 
 ]

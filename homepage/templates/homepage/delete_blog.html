@@ -4,16 +4,19 @@
 {% block title %} Delete {{blog.title}} {% endblock %}
 {% block other %}
 
-<h2>Delete Blog</h2>
+<div class="container mt-5 p-5">
+    <div class="card d-flex" style="width: 70rem; height:fit-content">
+    <h2 class="text-center mt-5">Delete Blog</h2>
 
-<p>
-Are you sure you want to delete  
+<p class="px-5">Are you sure you want to delete  
 <strong>"{{ blog.title }}"</strong> ?
 </p>
 
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Yes, delete</button>
+    <button class="m-5"type="submit">Yes, delete</button>
     <a href="{% url 'blog_detail' blog.slug %}">Cancel</a>
 </form>
+</div>
+</div>
 {% endblock other %}

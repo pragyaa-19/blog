@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block other %}
+<div class="instagram-feed" style="max-width: 600px; margin: 0 auto;">
+    
+    {% for post in posts %}
+    <div class="post-card" style="border: 1px solid #dbdbdb; background-color: #fff; margin-bottom: 24px; border-radius: 3px;">
+        
+        <div class="post-header" style="padding: 14px; font-weight: bold;">
+            {{ post.user.username }}
+        </div>
+
+        <div class="post-media">
+            {% with first_media=post.media.all|first %}
+                {% if first_media %}
+                    {% if first_media.is_video %}
+                        <video controls style="width: 100%; display: block;">
+                            <source src="{{ first_media.file.url }}">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% else %}
+                        <img src="{{ first_media.file.url }}" alt="Post Media" style="width: 100%; display: block; height: auto;">
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <div class="post-body" style="padding: 14px;">
+            <p style="margin: 0;">
+                <span style="font-weight: bold; margin-right: 8px;">{{ post.user.username }}</span>
+                {{ post.caption }}
+            </p>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

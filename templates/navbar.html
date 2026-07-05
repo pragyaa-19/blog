@@ -1,0 +1,108 @@
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm sticky-top">
+    <div class="container px-2">
+
+
+        <a class="navbar-brand dark" href="{% url 'index' %}">
+            Blogs
+        </a>
+
+        <a href="{% url 'photo' %}" class="navbar-brand">
+            Photos
+        </a>
+
+
+
+        <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <!-- Left Side -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <li class="nav-item">
+                    <a href="{% url 'explore' %}"
+                        class="nav-link {% if request.resolver_match.url_name == 'explore' %}active{% endif %}">
+                        Explore
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'about' %}"
+                        class=" nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                        About
+                    </a>
+                </li>
+
+
+
+            </ul>
+
+            <!-- Search -->
+            <form class="d-flex me-3" method="get" action="{% url 'index' %}">
+                <input class="form-control me-2" type="search" placeholder="Search blogs" value="{{ search_query }}"
+                    name="q">
+
+                <button class="btn btn-outline-secondary me-2" type="submit">
+                    Search
+                </button>
+                <button type="button" id="clear-search"
+                    class="btn btn-link text-dark p-0 border-0 me-2 shadow-none">
+                    <i class="bi bi-x-circle-fill"></i>
+                </button>
+            </form>
+
+            <!-- User Dropdown -->
+
+
+            <!-- Right Side User Dropdown -->
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle btn btn-outline-light border-0 px-3 py-2 rounded-pill d-flex align-items-center gap-2"
+                        href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-user"></i> {{ request.user.username|default:"Account" }}
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 p-2"
+                        style="border-radius: 12px;">
+                        <li>
+                            <a class="dropdown-item py-2 rounded-3 text-success fw-semibold"
+                                href="{% url 'create_blog' %}">
+                                ➕ Create Blog
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider my-2">
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 rounded-3 {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+                                href="{% url 'dashboard' %}">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 rounded-3 {% if request.resolver_match.url_name == 'upload' %}active{% endif %}"
+                                href="{% url 'upload' %}">
+                                Upload Photo
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider my-2">
+                        </li>
+                        <li>
+                            <a class="dropdown-item py-2 rounded-3 text-danger" href="{% url 'logout' %}">
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</nav>

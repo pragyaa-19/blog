@@ -1,0 +1,108 @@
+body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0e5eb, #dee2e0, #e4e6e6, #fcfbfa);
+    background-size: 400% 400%;
+    animation: gradientShift 14s ease infinite;
+}
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+.card {
+    position: relative;
+    z-index: 1;
+    width: 360px;
+    padding: 40px 32px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    color: #fff;
+    
+}
+
+.card h1 {
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.form-control {
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+}
+p,label,small{
+    color: whitesmoke;
+}
+a{  
+    margin-top: 2px;
+    color: #ffffff;
+    font-weight: 100;
+}
+
+.sm{
+    text-align: center;
+}
+.btn-primary {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: #fff;
+    color: #7873f5;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.55;
+    z-index: 0;
+  }
+  .blob1 {
+    width: 320px; height: 320px;
+    background: #dbd6d9;
+    top: -80px; left: -60px;
+    animation: float1 9s ease-in-out infinite;
+  }
+  .blob2 {
+    width: 280px; height: 280px;
+    background: #d9dfdf;
+    bottom: -60px; right: -40px;
+    animation: float2 11s ease-in-out infinite;
+  }
+  .blob3 {
+    width: 220px; height: 220px;
+    background: #eeedec;
+    bottom: 10%; left: 8%;
+    animation: float3 13s ease-in-out infinite;
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(40px, 60px); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-50px, -30px); }
+  }
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -40px); }
+  }

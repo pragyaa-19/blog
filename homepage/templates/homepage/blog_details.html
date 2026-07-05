@@ -1,18 +1,78 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Blogs | {{ blog.title }}{% endblock %}  
-{% block other %}
-<h1>
-    {{ blog.title }}
-</h1>
-<small> By: {{ blog.author.username }} | {{ blog.created_at }}</small> <br/>
-<hr>
+{% block title %} {{ blog.title }} {% endblock %}
 
-<h3>
+{% block css %}
+<link rel="stylesheet" href="{% static 'accounts/css/blogs.css' %}">
+<style>
+    /* Subtle hover effect for the edit icon */
+    .edit-icon {
+        transition: color 0.2s ease-in-out;
+    }
+    .edit-icon:hover {
+        color: #212529 !important; /* Standard Bootstrap dark */
+    }
+</style>
+{% endblock %}
+
+{% block other %}
+<!-- Fixed typo 'conatainer' to 'container' and added top/bottom margin -->
+<div class="container mt-4 mb-5">
     
-{{ blog.content }}</h3>
-<small> last updated at {{ blog.updated_at }}</small>
-<br>
-<small> <a href="{% url 'index' %}"> Back </a></small>
+    <!-- Enforced bg-white, removed borders, and added padding for a spacious reading experience -->
+    <div class="card shadow-sm border-0 bg-white rounded-3">
+        <div class="card-body p-4 p-md-5">
+            
+            <div class="d-flex justify-content-between align-items-start w-100 mb-3">
+                <h1 class="card-title text-dark fw-bold mb-0"> {{ blog.title }} </h1>
+                
+                <!-- Grouped the reaction and edit actions together using gap-3 -->
+                <div class="d-flex align-items-center gap-3">
+                    {% include 'reaction.html' %}
+                    
+                    {% if request.user == blog.author %}
+                    <!-- Note: I changed the URL from 'edit' to 'blog_edit' with the slug to match your previous dropdown template -->
+                    <a href="{% url 'blog_edit' blog.slug %}" class="text-secondary edit-icon fs-5" title="Edit Blog"> 
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Cleaned up the meta-information row -->
+            <div class="text-muted small mb-4">
+                <span>By <strong class="text-dark">{{ blog.author.username }}</strong></span>
+                <span class="mx-2">•</span>
+                <span>{{ blog.created_at|date:"F j, Y" }}</span>
+            </div>
+            
+            <hr class="text-muted opacity-25 mb-4">
+            
+            <!-- Added line-height (lh-lg) for better readability of long-form content -->
+            <div class="blog-content text-dark lh-lg mb-5">
+                <!-- Using linebreaks filter to preserve paragraphs if your content uses raw text -->
+                {{ blog.content|linebreaks }} 
+            </div>
+            
+            <!-- Pushed the 'last updated' text to the bottom right for a cleaner look -->
+            <div class="text-end border-top pt-3">
+                <small class="text-muted fst-italic">Last updated: {{ blog.updated_at|date:"F j, Y, g:i a" }}</small>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Separated the comments section with top margin -->
+    <div class="mt-5 bg-white border-0 shadow-sm rounded-3 p-4 p-md-5">
+        {% include 'comments.html' %}
+    </div>
+
+</div>
+
 {% endblock other %}
+
+{% block js %}
+<script src="{% static 'accounts/js/comment.js' %}"></script>
+<script src="{% static 'accounts/js/reaction.js' %}"></script>
+{% endblock %}

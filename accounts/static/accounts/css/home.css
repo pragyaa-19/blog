@@ -1,0 +1,33 @@
+.card{
+    background-color: rgb(236, 245, 245);
+    border: none;
+    border-radius: 12px;
+    
+}
+
+.R:hover{
+    color: blue;
+}
+
+.E:hover{
+    color: rgb(139, 57, 108);
+}
+
+
+.D:hover{
+    color: rgb(221, 21, 21);
+}
+
+
+.l:hover{
+    color: rgb(189, 40, 13);
+}
+
+.d:hover{
+    color: rgb(134, 101, 8);
+}
+
+.nav-link {
+    display: inline-block;
+}
+

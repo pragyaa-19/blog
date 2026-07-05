@@ -1,12 +1,75 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Edit | Blogs{% endblock %}
+
+{% block title %}Edit Blog{% endblock %}
+
 {% block other %}
 
-<h1> Edit Your Blog : </h1>
-<form method="post">
-    {% csrf_token %} 
-    {{form.as_p}}
-    <input type="submit" value="submit">
-</form>
-{% endblock other %}
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8 col-md-10">
+
+            <!-- Header -->
+            <div class="mb-4">
+                <h2 class="fw-bold">✏️ Edit Your Blog</h2>
+                <p class="text-muted">Make changes and update your post</p>
+            </div>
+
+            <!-- Card -->
+            <div class="card shadow-sm border-0" style="border-radius: 14px;">
+
+                <div class="card-body p-4">
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <!-- Content -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Content</label>
+                            {{ form.content }}
+                        </div>
+
+                        <!-- Publish Toggle -->
+<div class="form-check form-switch mb-4">
+    {{ form.published }}
+    <label class="form-check-label fw-semibold">
+        Make this blog public
+    </label>
+</div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{% url 'dashboard' %}"
+                               class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary px-4">
+                                Update Blog 🚀
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

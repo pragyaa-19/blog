@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block other %}
+    <div class="container">
+       <h3 mt-1> {{request.user.username}}'s Profile Page </h3>
+       <small> Bio:{{ request.user.bio|default:"No bio yet..." }}</small>
+       <hr>
+    </div>
+    <div class="container info">
+        <h5> Your personal info <a href="{% url 'edit'%}"> edit </a>
+            <br>
+            @{{request.user.fullname}}
+            <br>
+            {{request.user.email | default:"No email"}}
+            <br>
+            {{request.user.blog | length}}
+        </h5>
+        <hr>
+    </div>
+    <div class="about"><h5>About</h5></div>
+    <div class="followers"><h5>My followers</h5></div>
+    <div class="following"><h5>Following</h5></div>
+    <div class="photos">My photos</div>
+    <div class="blogs">My blogs</div>
+{% endblock %}
+    

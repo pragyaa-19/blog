@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block other %}
+
+<div class="container mt-4">
+
+    <!-- Profile Header Card -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-4">
+
+                <!-- Left Column: User Profile Info -->
+                <div class="flex-grow-1">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <h2 class="mb-0 fw-bold">{{ author.username }}</h2>
+                        
+                        <!-- Follow Button Form -->
+                        <form action="{% url 'follow' %}" method="post" class="m-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="author_id" value="{{ author.id }}">
+                            <button type="submit" class="btn btn-sm {% if is_following %}btn-outline-secondary{% else %}btn-secondary{% endif %}">
+                                {% if is_following %} Following {% else %} Follow {% endif %}
+                            </button>
+                        </form>
+                    </div>
+
+                    <p class="text-muted mb-3">{{ author.email }}</p>
+                    
+                    <p class="mb-0 fw-medium">
+                        {{ author.bio|default:"No bio yet..." }}
+                    </p>
+                </div>
+
+                <!-- Right Column: Statistics Counters Grouped Cleanly -->
+                <div class="d-flex align-items-center gap-4 text-center mt-2 mt-md-0">
+                    <div>
+                        <h5 class="mb-0 fw-bold">{{ followers }}</h5>
+                        <small class="text-muted">followers</small>
+                    </div>
+                    <div class="border-start ps-4">
+                        <h5 class="mb-0 fw-bold">{{ blogs|length }}</h5>
+                        <small class="text-muted">Blogs</small>
+                    </div>
+                    <div class="border-start ps-4">
+                        <h5 class="mb-0 fw-bold">{{ posts|length }}</h5>
+                        <small class="text-muted">Photos</small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Interactive Tabs Control Row -->
+    <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#blogs" type="button">
+                Blogs ({{ blogs|length }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#photos" type="button">
+                Photos ({{ posts|length }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#about" type="button">
+                About
+            </button>
+        </li>
+    </ul>
+
+    <!-- Dynamic Tab Workspaces Content Stack -->
+    <div class="tab-content">
+
+        <!-- 1. BLOGS PANELS WORKSPACE -->
+        <div class="tab-pane fade show active" id="blogs">
+            {% for blog in blogs %}
+                <div class="card mb-3 shadow-sm border-0">
+                    <div class="card-body">
+                        <h5>
+                            <a href="{% url 'blog_detail' blog.slug %}" class="text-decoration-none text-dark fw-bold">
+                                {{ blog.title }}
+                            </a>
+                        </h5>
+                        <p class="text-muted small mb-2">
+                            {{ blog.created_at|date:"F j, Y" }}
+                        </p>
+                        <p class="mb-0 text-secondary">
+                            {{ blog.content|truncatechars:120 }}
+                        </p>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="alert alert-info border-0 shadow-sm">No blogs yet.</div>
+            {% endfor %}
+        </div>
+
+        <!-- 2. PHOTOS PANELS GRID WORKSPACE -->
+        <div class="tab-pane fade" id="photos">
+            <div class="row g-3">
+                {% for post in posts %}
+                    {% with first_media=post.media.first %}
+                        {% if first_media %}
+                            <div class="col-6 col-md-4">
+                                <div class="ratio ratio-1x1 overflow-hidden rounded bg-light border shadow-sm">
+                                    {% if first_media.is_video %}
+                                        <video class="object-fit-cover" controls>
+                                            <source src="{{ first_media.file.url }}">
+                                        </video>
+                                    {% else %}
+                                        <img src="{{ first_media.file.url }}" class="object-fit-cover img-fluid">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info border-0 shadow-sm">No photos yet.</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 3. ABOUT TEXT PANELS WORKSPACE -->
+        <div class="tab-pane fade" id="about">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">About the Author</h5>
+                    <p class="text-secondary style-about mb-0" style="line-height: 1.7; white-space: pre-line;">
+                        {{ author.about|default:"This user hasn't written a detailed about description yet." }}
+                    </p>
+                </div>
+            </div>
+            
+            {% include 'subscribe.html' %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

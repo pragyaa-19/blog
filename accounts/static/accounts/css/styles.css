@@ -1,0 +1,42 @@
+.navbar-custom {
+    background: rgba(239, 241, 241, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+
+body{
+    background: #d1d1d3;
+
+}
+.nav-link,.navbar-brand  {
+    font-weight: 500;
+    color:black
+}
+
+
+.nav-link:hover {
+    color: #5a3291 !important;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+img {
+  transition: 0.3s;
+}
+
+img:hover {
+  transform: scale(1.05);
+}
+
+
+
+.nav-link.active {
+    border-bottom: 1px solid rgb(36, 35, 35);
+}
+
+.nav-item{
+    color: rgb(61, 60, 60);
+    
+}

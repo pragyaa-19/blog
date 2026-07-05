@@ -1,0 +1,27 @@
+.card{
+    width: fit-content;
+    min-height: 94vh;
+    border: none;
+    border-radius: 0;
+    z-index: auto;
+
+}
+
+
+
+p{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 250;
+    padding: 2rem;
+    font-size: large;
+
+}
+.card h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.dropdown-menu {
+    z-index: 9999 !important;
+}

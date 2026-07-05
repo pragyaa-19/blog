@@ -1,0 +1,50 @@
+<!-- Added a subtle heading for the form -->
+<h4 class="fw-bold text-dark mb-3">Leave a Comment</h4>
+
+<!-- Used gap-2 for clean spacing and removed the overly large mb-5 -->
+<form class="d-flex gap-2 mb-5" id="comment-form" method="POST">
+  {% csrf_token %}
+  
+  <!-- Changed to form-control, added a light background, and removed borders -->
+  <input 
+    class="form-control bg-light border-0 rounded-3 px-3 py-2 shadow-none" 
+    type="text" 
+    name="comment" 
+    id="comment-input" 
+    placeholder="Write your thoughts..."
+    required>
+    
+  <!-- Swapped to btn-dark to maintain the high-contrast light theme look -->
+  <button class="btn btn-dark px-4 rounded-3 fw-medium" type="submit">
+    Post
+  </button>
+</form>
+
+<h4 class="fw-bold text-dark mb-4">Comments</h4>
+
+<div id="comments-container">
+    {% for comment in comments %}
+    <!-- Replaced hard borders with a soft background and rounded corners -->
+    <div class="comment bg-light border-0 rounded-3 p-3 mb-3">
+        <div class="d-flex align-items-baseline mb-1">
+            <strong class="text-dark">{{ comment.user.username }}</strong>
+            <small class="text-muted ms-2" style="font-size: 0.85rem;">
+                 {{ comment.created_at|date:"F j, Y" }}
+            </small>
+        </div>
+
+        <!-- Slightly darkened text for better contrast against the light grey -->
+        <div class="text-secondary mt-1">
+            {{ comment.content }}
+        </div>
+    </div>
+    
+    {% empty %}
+    
+    <!-- Styled the empty state to match the theme instead of plain text -->
+    <div class="text-center p-4 bg-light rounded-3 text-muted">
+        <p class="mb-0">No comments yet. Be the first to share your thoughts!</p>
+    </div>
+    
+    {% endfor %}
+</div>

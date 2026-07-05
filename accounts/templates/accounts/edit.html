@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile | Settings{% endblock %}
+
+{% block css %}
+<style>
+    /* Workspace Main Container Layout */
+    .settings-container {
+        max-width: 960px;
+        margin-top: 3rem;
+        margin-bottom: 5rem;
+    }
+
+    /* Form UI Elements */
+    .form-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.4rem;
+    }
+    .form-control, .input-group-text {
+        background-color: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 0.7rem 0.9rem;
+        color: #111827;
+        transition: all 0.2s ease;
+    }
+    .form-control:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+
+    /* Action Buttons */
+    .btn-primary-submit {
+        background-color: #4f46e5;
+        border: none;
+        color: #ffffff;
+        padding: 0.7rem 2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+    .btn-primary-submit:hover {
+        background-color: #4338ca;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+    .btn-secondary-cancel {
+        background-color: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        color: #4b5563;
+        padding: 0.7rem 2rem;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .btn-secondary-cancel:hover {
+        background-color: #e5e7eb;
+        color: #1f2937;
+    }
+</style>
+{% endblock css %}
+
+{% block other %}
+<div class="container settings-container">
+    <div class="bg-white rounded-4 border p-4 p-md-5 shadow-sm">
+        
+        <!-- Header Title -->
+        <div class="mb-5 border-bottom pb-3">
+            <h2 class="fw-bold tracking-tight mb-1">Public Profile Settings</h2>
+            <p class="text-muted mb-0">Configure your identity details and writer background across the platform.</p>
+        </div>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            
+            <!-- Full Name and Username Grid Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="id_fullname">Full Name</label>
+                    <input class="form-control {% if form.fullname.errors %}is-invalid{% endif %}" 
+                           id="id_fullname" type="text" placeholder="GoGo Mater" name="fullname"
+                           value="{{ form.fullname.value|default:'' }}">
+                    {% if form.fullname.errors %}
+                        <div class="invalid-feedback d-block">{{ form.fullname.errors.as_text }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="id_username">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-muted">@</span>
+                        <input class="form-control border-start-0 {% if form.username.errors %}is-invalid{% endif %}" 
+                               id="id_username" type="text" placeholder="xyz" name="username"
+                               value="{{ form.username.value|default:'' }}">
+                    </div>
+                    {% if form.username.errors %}
+                        <div class="invalid-feedback d-block">{{ form.username.errors.as_text }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Email Address Field -->
+            <div class="mb-4">
+                <label class="form-label" for="id_email">Email Address</label>
+                <input class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                       id="id_email" type="email" placeholder="yourname@gmail.com" name="email"
+                       value="{{ form.email.value|default:'' }}">
+                {% if form.email.errors %}
+                    <div class="invalid-feedback d-block">{{ form.email.errors.as_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Short Bio Input Field -->
+            <div class="mb-4">
+                <label class="form-label" for="id_bio">Short Bio</label>
+                <input class="form-control {% if form.bio.errors %}is-invalid{% endif %}" 
+                       id="id_bio" type="text" placeholder="A catchphrase or simple headline..." name="bio"
+                       value="{{ form.bio.value|default:'' }}">
+                <div class="form-text text-muted mt-1">A brief catchphrase that appears under your name on post snippets.</div>
+                {% if form.bio.errors %}
+                    <div class="invalid-feedback d-block">{{ form.bio.errors.as_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Comprehensive About Me Section -->
+            <div class="mb-5">
+                <label class="form-label" for="id_about">About Me</label>
+                <textarea class="form-control {% if form.about.errors %}is-invalid{% endif %}" 
+                          id="id_about" rows="6" name="about" 
+                          placeholder="Share your journey, themes you like to write about, or professional milestones...">{{ form.about.value|default:'' }}</textarea>
+                <div class="form-text text-muted mt-1">Tell your readers a detailed story about who you are. This renders cleanly on your main author profile layout.</div>
+                {% if form.about.errors %}
+                    <div class="invalid-feedback d-block">{{ form.about.errors.as_text }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Footer Operations Save Panel -->
+            <div class="d-flex align-items-center justify-content-end gap-3 pt-4 border-top">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary-cancel text-decoration-none">Cancel</a>
+                <button type="submit" class="btn btn-primary-submit">Save Changes</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock other %}

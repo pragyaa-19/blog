@@ -1,0 +1,29 @@
+<div class="dropdown">
+    <button class="btn bg-transparent border-0 px-2 text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots-vertical fs-5"></i>
+    </button>
+
+    <ul class="dropdown-menu bg-white border-0 shadow mt-1 dropdown-menu-end rounded-3">
+        
+        <li>
+            <a class="dropdown-item fw-medium text-dark R" href="{% url 'blog_detail' blog.slug %}">
+                Read More
+            </a>
+        </li>
+
+        <li>
+            <a class="dropdown-item fw-medium text-dark E" href="{% url 'blog_edit' blog.slug %}">
+                Edit
+            </a>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li>
+            <a class="dropdown-item fw-medium text-danger D" href="{% url 'blog_delete' blog.slug %}">
+                Delete
+            </a>
+        </li>
+        
+    </ul>
+</div>
