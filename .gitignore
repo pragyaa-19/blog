@@ -1,6 +1,7 @@
 myenv
 idea
 db.sqlite3
+media/
 # Python
 __pycache__/
 *.py[cod]
