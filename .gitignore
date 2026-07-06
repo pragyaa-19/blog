@@ -1,5 +1,5 @@
 myenv
-idea
+.idea
 db.sqlite3
 media/
 # Python
